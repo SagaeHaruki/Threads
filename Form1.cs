@@ -28,18 +28,24 @@ namespace Threads
             threadA.Name = "Thread A";
             Thread threadB = new Thread(threads.Thread1);
             threadB.Name = "Thread B";
-            Thread threadC = new Thread(threads.Thread1);
+            Thread threadC = new Thread(threads.Thread2);
             threadC.Name = "Thread C";
+            Thread threadD = new Thread(threads.Thread2);
+            threadD.Name = "Thread D";
+
+            threadA.Priority = ThreadPriority.Highest;
+            threadB.Priority = ThreadPriority.Normal;
+            threadC.Priority = ThreadPriority.AboveNormal;
+            threadD.Priority = ThreadPriority.BelowNormal;
 
             threadA.Start();
-            Thread.Sleep(100);
             threadB.Start();
-            Thread.Sleep(100);
             threadC.Start();
+            threadD.Start();
             threadA.Join();
             threadB.Join();
             threadC.Join();
-            
+            threadD.Join();
 
             Console.WriteLine("- Thread Ends -");
         }
@@ -49,7 +55,16 @@ namespace Threads
     {
         public void Thread1()
         {
-            for (int x = 0; x < 6; x++)
+            for (int x = 0; x < 3; x++)
+            {
+                Thread thread = Thread.CurrentThread;
+                Console.WriteLine("Name of Thread: " + thread.Name + " Process = " + x);
+                Thread.Sleep(500);
+            }
+        }
+        public void Thread2()
+        {
+            for (int x = 1; x < 6; x++)
             {
                 Thread thread = Thread.CurrentThread;
                 Console.WriteLine("Name of Thread: " + thread.Name + " Process = " + x);
